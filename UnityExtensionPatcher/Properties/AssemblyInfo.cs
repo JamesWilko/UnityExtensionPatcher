@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle( "UnityExtensionPatcher" )]
-[assembly: AssemblyDescription( "" )]
+[assembly: AssemblyDescription( "A tool to patch C# Assemblies for Unity games." )]
 [assembly: AssemblyConfiguration( "" )]
-[assembly: AssemblyCompany( "" )]
+[assembly: AssemblyCompany( "James Wilkinson" )]
 [assembly: AssemblyProduct( "UnityExtensionPatcher" )]
 [assembly: AssemblyCopyright( "Copyright ©  2015" )]
 [assembly: AssemblyTrademark( "" )]
