@@ -146,19 +146,6 @@ namespace UnityExtensionPatcher.Patcher
 
 			// Perform the required patch on the IL
 			Logging.Log( "Starting patch..." );
-
-			//var tickManagerPatch = new UnityExtensionPatcher.Patches.BigPharmaTickManagerUpdate();
-			//tickManagerPatch.PerformPatch( ref ilFile );
-
-			//var fieldPatch = new UnityExtensionPatcher.Patches.BigPharmaExtensionManagerField();
-			//fieldPatch.PerformPatch( ref ilFile );
-
-			//var extensionManagerPatch = new UnityExtensionPatcher.Patches.BigPharmaLoadExtensionManager();
-			//extensionManagerPatch.PerformPatch( ref ilFile );
-
-			//var loadExtensionsPatch = new UnityExtensionPatcher.Patches.BigPharmaCallLoadExtensionManager();
-			//loadExtensionsPatch.PerformPatch( ref ilFile );
-
 			patchCollection.Patch( ref ilFile );
 
 			// Remove the old un-patched IL file
@@ -275,16 +262,14 @@ namespace UnityExtensionPatcher.Patcher
 			// Perform decompile using ildasm
 			try
 			{
-				var process = new Process
+				Process process = new Process();
+				process.StartInfo = new ProcessStartInfo( IL_DISASSEMBLER )
 				{
-					StartInfo = new ProcessStartInfo( IL_DISASSEMBLER )
-					{
-						UseShellExecute = false,
-						RedirectStandardOutput = true,
-						RedirectStandardError = true,
-						CreateNoWindow = true,
-						Arguments = string.Format( DECOMPILE_IL_ARGUMENTS, TEMP_INPUT_FILE, InputFileIL )
-					}
+					UseShellExecute = false,
+					RedirectStandardOutput = true,
+					RedirectStandardError = true,
+					CreateNoWindow = true,
+					Arguments = string.Format( DECOMPILE_IL_ARGUMENTS, TEMP_INPUT_FILE, InputFileIL )
 				};
 				process.OutputDataReceived += ( s, e ) => { Logging.Log( e.Data ); };
 				process.ErrorDataReceived += ( s, e ) => { Logging.Log( e.Data ); };
@@ -318,16 +303,14 @@ namespace UnityExtensionPatcher.Patcher
 
 			try
 			{
-				var process = new Process
+				Process process = new Process();
+				process.StartInfo = new ProcessStartInfo( AssemblerFile )
 				{
-					StartInfo = new ProcessStartInfo( AssemblerFile )
-					{
-						UseShellExecute = false,
-						RedirectStandardOutput = true,
-						RedirectStandardError = true,
-						CreateNoWindow = true,
-						Arguments = string.Format( RECOMPILE_IL_ARGUMENTS, InputFileIL, TEMP_OUTPUT_FILE )
-					}
+					UseShellExecute = false,
+					RedirectStandardOutput = true,
+					RedirectStandardError = true,
+					CreateNoWindow = true,
+					Arguments = string.Format( RECOMPILE_IL_ARGUMENTS, InputFileIL, TEMP_OUTPUT_FILE )
 				};
 				process.OutputDataReceived += ( s, e ) => { Logging.Log( e.Data ); };
 				process.ErrorDataReceived += ( s, e ) => { Logging.Log( e.Data ); };
