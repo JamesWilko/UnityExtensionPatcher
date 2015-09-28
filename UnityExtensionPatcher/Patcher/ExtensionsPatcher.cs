@@ -263,6 +263,10 @@ namespace UnityExtensionPatcher.Patcher
 		bool DecompileTarget()
 		{
 			// Copy our target file for decompile
+			if ( File.Exists( TEMP_INPUT_FILE ) )
+			{
+				File.Delete( TEMP_INPUT_FILE );
+			}
 			File.Copy( InputFile, TEMP_INPUT_FILE );
 
 			// Perform decompile using ildasm
