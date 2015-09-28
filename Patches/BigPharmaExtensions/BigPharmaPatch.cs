@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityExtensionPatcher.Patches;
+using BigPharmaExtensions.Patches;
 
 namespace BigPharmaExtensions
 {
@@ -28,8 +29,9 @@ namespace BigPharmaExtensions
 				{
 					new BigPharmaCallLoadExtensionManager(),
 					new BigPharmaExtensionManagerField(),
-					new BigPharmaLoadExtensionManager()
-					//new BigPharmaTickManagerUpdate()
+					new BigPharmaLoadExtensionManager(),
+					new BigPharmaInjectHandleMachineProcess(),
+					new BigPharmaInjectHandleMachineProcessLocals(),
 				};
 			}
 		}

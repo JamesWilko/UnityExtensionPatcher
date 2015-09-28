@@ -18,7 +18,12 @@ namespace BigPharmaExtensions
 			{
 				return new List<string>()
 				{
-					".field private object _extensionManager"
+					".field public object extensionManagerObject",
+					"",
+					".field public class [mscorlib]System.Type[] extensionManagerTypes",
+					"",
+					".field public class [mscorlib]System.Reflection.Assembly extensionManagerAssembly",
+					"",
 				};
 			}
 		}

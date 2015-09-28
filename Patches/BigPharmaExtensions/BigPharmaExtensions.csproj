@@ -42,8 +42,9 @@
     <Compile Include="BigPharmaPatch.cs" />
     <Compile Include="Patches\BigPharmaCallLoadExtensionManager.cs" />
     <Compile Include="Patches\BigPharmaExtensionManagerField.cs" />
+    <Compile Include="Patches\BigPharmaInjectHandleMachineProcess.cs" />
+    <Compile Include="Patches\BigPharmaInjectHandleMachineProcessLocals.cs" />
     <Compile Include="Patches\BigPharmaLoadExtensionManager.cs" />
-    <Compile Include="Patches\BigPharmaTickManagerUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
