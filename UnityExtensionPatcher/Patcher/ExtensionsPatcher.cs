@@ -137,7 +137,10 @@ namespace UnityExtensionPatcher.Patcher
 			{
 				Logging.Log( "" );
 				Logging.Log( "Patching failed!" );
-				CleanupFiles( patcherResources, false );
+				if ( this.PerformPostCompileCleanup )
+				{
+					CleanupFiles( patcherResources, true );
+				}
 				return;
 			}
 
@@ -173,7 +176,10 @@ namespace UnityExtensionPatcher.Patcher
 			{
 				Logging.Log( "" );
 				Logging.Log( "Patching failed!" );
-				CleanupFiles( patcherResources, false );
+				if ( this.PerformPostCompileCleanup )
+				{
+					CleanupFiles( patcherResources, true );
+				}
 				return;
 			}
 
