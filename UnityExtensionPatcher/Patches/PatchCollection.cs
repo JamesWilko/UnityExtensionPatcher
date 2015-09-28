@@ -23,14 +23,14 @@ namespace UnityExtensionPatcher.Patches
 		public abstract List<PatchAuthor> PatchAuthor { get; }
 		public abstract List<Patch> Patches { get; }
 
-		const string PATCH_LOG = "Performing patch {0}...";
+		const string PATCH_LOG = "Performing patch {0}... {1}";
 
 		public void Patch(ref List<string> ilFile)
 		{
 			foreach ( Patch patch in Patches )
 			{
-				Logging.Log( PATCH_LOG, patch.GetType().FullName );
-				patch.PerformPatch( ref ilFile );
+				bool patched = patch.PerformPatch( ref ilFile );
+				Logging.Log( PATCH_LOG, patch.GetType().FullName, patched ? "Success" : "Failed" );
 			}
 		}
 

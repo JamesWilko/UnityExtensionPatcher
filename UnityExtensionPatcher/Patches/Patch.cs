@@ -18,7 +18,7 @@ namespace UnityExtensionPatcher.Patches
 		public abstract PatchInsertionPosition InsertionPosition { get; }
 		public abstract int InsertionPointOffset { get; }
 
-		public abstract void PerformPatch( ref List<string> ilFileLines );
+		public abstract bool PerformPatch( ref List<string> ilFileLines );
 
 		public virtual int GetInsertionOffset()
 		{

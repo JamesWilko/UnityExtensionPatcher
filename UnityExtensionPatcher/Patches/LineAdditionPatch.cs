@@ -9,6 +9,7 @@ namespace UnityExtensionPatcher.Patches
 	public abstract class LineAdditionPatch : Patch
 	{
 		public abstract List<string> PatchLines { get; }
+		public virtual bool RemoveOriginalLine { get { return false; } }
 
 		public override int GetInsertionOffset()
 		{
@@ -22,19 +23,24 @@ namespace UnityExtensionPatcher.Patches
 			}
 		}
 
-		public override void PerformPatch( ref List<string> ilFileLines )
+		public override bool PerformPatch( ref List<string> ilFileLines )
 		{
 			for ( int i = 0; i < ilFileLines.Count; i++ )
 			{
 				if ( ilFileLines[i].Contains( this.InsertionPoint ) )
 				{
+					if ( RemoveOriginalLine )
+					{
+						ilFileLines.RemoveAt( i );
+					}
 					for ( int k = PatchLines.Count - 1; k >= 0; k-- )
 					{
 						ilFileLines.Insert( i + GetInsertionOffset(), PatchLines[k] );
 					}
-					break;
+					return true;
 				}
 			}
+			return false;
 		}
 	}
 }

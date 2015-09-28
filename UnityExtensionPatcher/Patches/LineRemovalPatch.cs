@@ -12,7 +12,7 @@ namespace UnityExtensionPatcher.Patches
 
 		const string COMMENT_CHARACTERS = "//";
 
-		public override void PerformPatch( ref List<string> ilFileLines )
+		public override bool PerformPatch( ref List<string> ilFileLines )
 		{
 			for ( int i = 0; i < ilFileLines.Count; i++ )
 			{
@@ -24,9 +24,10 @@ namespace UnityExtensionPatcher.Patches
 					{
 						ilFileLines[k] = string.Format( "{0}{1}", COMMENT_CHARACTERS, ilFileLines[k] );
 					}
-					break;
+					return true;
 				}
 			}
+			return false;
 		}
 
 	}
