@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\AssemblyData.cs" />
     <Compile Include="Data\NamespaceData.cs" />
     <Compile Include="NewPatcherWindow.cs">
       <SubType>Form</SubType>
