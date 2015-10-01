@@ -317,17 +317,17 @@ namespace UnityExtensionPatcher.Patcher
 				process.StartInfo = new ProcessStartInfo( AssemblerFile )
 				{
 					UseShellExecute = false,
-					RedirectStandardOutput = true,
-					RedirectStandardError = true,
-					CreateNoWindow = true,
+					RedirectStandardOutput = false,
+					RedirectStandardError = false,
+					CreateNoWindow = false,
 					Arguments = string.Format( RECOMPILE_IL_ARGUMENTS, InputFileIL, TEMP_OUTPUT_FILE )
 				};
 				process.OutputDataReceived += ( s, e ) => { Logging.Log( e.Data ); };
 				process.ErrorDataReceived += ( s, e ) => { Logging.Log( e.Data ); };
 
 				process.Start();
-				process.BeginOutputReadLine();
-				process.BeginErrorReadLine();
+				//process.BeginOutputReadLine();
+				//process.BeginErrorReadLine();
 				process.WaitForExit();
 			}
 			catch ( Exception exception )

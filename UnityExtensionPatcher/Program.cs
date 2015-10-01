@@ -16,7 +16,7 @@ namespace UnityExtensionPatcher
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault( false );
-			Application.Run( new PatcherWindow() );
+			Application.Run( new NewPatcherWindow() );
 		}
 	}
 }
