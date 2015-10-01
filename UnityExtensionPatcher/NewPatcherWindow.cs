@@ -19,32 +19,54 @@ namespace UnityExtensionPatcher
             InitializeComponent();
         }
 
+        string debugAssembly = @"Assembly-CSharp.dll";
+        Dictionary<string, NamespaceData> loadedNamespaces = new Dictionary<string, NamespaceData>();
+
         private void NewPatcherWindow_Load(object sender, EventArgs e)
         {
-            string debugAssembly = @"Assembly-CSharp.dll";
-
-            TreeNode assemblyNode = assemblyView.Nodes.Add(debugAssembly);
             ModuleDefinition module = ModuleDefinition.ReadModule(debugAssembly);
-
-            Dictionary<string, NamespaceData> namespaces = new Dictionary<string, NamespaceData>();
             NamespaceData namespaceData;
 
             // Create global namespace
             namespaceData = new NamespaceData("global");
-            namespaces.Add("", namespaceData);
-            assemblyNode.Nodes.Add("global");
+            loadedNamespaces.Add("", namespaceData);
 
             // Find namespaces in the loaded assembly
             foreach (TypeDefinition type in module.Types)
             {
-                bool existingNamespace = namespaces.TryGetValue(type.Namespace, out namespaceData);
+                bool existingNamespace = loadedNamespaces.TryGetValue(type.Namespace, out namespaceData);
                 if (!existingNamespace)
                 {
                     namespaceData = new NamespaceData(type.Namespace);
-                    namespaces.Add(type.Namespace, namespaceData);
-                    assemblyNode.Nodes.Add(type.Namespace);
+                    loadedNamespaces.Add(type.Namespace, namespaceData);
+                    
                 }
                 namespaceData.Add(type);
+            }
+
+            // Update tree view hierarchy 
+            UpdateTreeView();
+        }
+
+        public void UpdateTreeView()
+        {
+            // Remove all previous nodes
+            assemblyView.Nodes.Clear();
+
+            Dictionary<string, TreeNode> namespaceNodes = new Dictionary<string, TreeNode>();
+
+            // Add node for loaded assembly
+            TreeNode assemblyNode = assemblyView.Nodes.Add(debugAssembly);
+
+            // Add nodes from assemblies
+            foreach (KeyValuePair<string, NamespaceData> namespacePair in loadedNamespaces)
+            {
+                NamespaceData data = namespacePair.Value;
+                namespaceNodes.Add(data.Name, assemblyNode.Nodes.Add(data.Name));
+                foreach (TypeDefinition type in data.Types)
+                {
+                    namespaceNodes[data.Name].Nodes.Add(type.Name);
+                }
             }
         }
     }
