@@ -39,7 +39,6 @@ namespace UnityExtensionPatcher
                 {
                     namespaceData = new NamespaceData(type.Namespace);
                     loadedNamespaces.Add(type.Namespace, namespaceData);
-                    
                 }
                 namespaceData.Add(type);
             }
@@ -65,7 +64,24 @@ namespace UnityExtensionPatcher
                 namespaceNodes.Add(data.Name, assemblyNode.Nodes.Add(data.Name));
                 foreach (TypeDefinition type in data.Types)
                 {
-                    namespaceNodes[data.Name].Nodes.Add(type.Name);
+					string typeName = type.Name;
+
+					// Check if the type has any generic parameters
+					if (type.HasGenericParameters)
+					{
+						// Build a string using the type name and the generic parameter names
+						string[] splitTypeName = typeName.Split('`');
+						string parametersString = "";
+						foreach(GenericParameter param in type.GenericParameters)
+						{
+							string separator = parametersString.Length > 0 ? ", " : "";
+                            parametersString = string.Format("{0}{1}{2}", parametersString, separator, param.Name);
+                        }
+						typeName = string.Format("{0}<{1}>", splitTypeName[0], parametersString);
+					}
+
+					// Add the type node
+					namespaceNodes[data.Name].Nodes.Add(typeName);
                 }
             }
         }
