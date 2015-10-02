@@ -92,6 +92,7 @@ namespace UnityExtensionPatcher.Data
 				StreamReader reader = new StreamReader(filePath);
 				System.Xml.Serialization.XmlSerializer xml = new System.Xml.Serialization.XmlSerializer(typeof(ProjectManifest));
 				ProjectManifest manifest = xml.Deserialize(reader) as ProjectManifest;
+				reader.Dispose();
                 return manifest;
             }
 			else
