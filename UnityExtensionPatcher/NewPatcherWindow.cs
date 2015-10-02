@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Mono.Cecil;
 using UnityExtensionPatcher.Data;
+using UnityExtensionPatcher.Windows;
 
 namespace UnityExtensionPatcher
 {
@@ -19,25 +20,17 @@ namespace UnityExtensionPatcher
             InitializeComponent();
         }
 
-        string[] debugAssemblies = new string[] {
-			@"Assembly-CSharp.dll",
-			@"Assembly-CSharp - Copy.dll",
-            @"Mono.Cecil.dll"
-		};
 		Dictionary<string, AssemblyData> loadedAssemblies = new Dictionary<string, AssemblyData>();
+		ProjectManifest CurrentProject {
+			get { return Program.CurrentProject; }
+			set { Program.CurrentProject = value; }
+		}
 
 		private void NewPatcherWindow_Load(object sender, EventArgs e)
 		{
-			// Load assemblies
-			foreach(string assemblyPath in debugAssemblies)
-			{
-				LoadAssembly(assemblyPath);
-            }
-
-			// Update tree view hierarchy 
 			UpdateProjectTreeView();
-            UpdateAssemblyTreeView();
-		}
+			UpdateAssemblyTreeView();
+        }
 
 		private void LoadAssembly(string path)
 		{
@@ -71,23 +64,36 @@ namespace UnityExtensionPatcher
 			// Remove all previous nodes
 			projectTree.Nodes.Clear();
 
-			// Add project settings node
-			TreeNode projectSettingsNode = projectTree.Nodes.Add("Project Settings");
-			projectSettingsNode.ImageKey = "gear.png";
-			projectSettingsNode.SelectedImageKey = "gear.png";
-
-			// Add project assemblies node
-			TreeNode assembliesNode = projectTree.Nodes.Add("Assemblies");
-			assembliesNode.ImageKey = "databases.png";
-			assembliesNode.SelectedImageKey = "databases.png";
-
-			// Add project assemblies
-			foreach(string assembly in debugAssemblies)
+			if(CurrentProject != null)
 			{
-				TreeNode assemblyNode = assembliesNode.Nodes.Add(assembly);
-				assemblyNode.ImageKey = "database--plus.png";
-				assemblyNode.SelectedImageKey = "database--plus.png";
+				// Add project settings node
+				TreeNode projectSettingsNode = projectTree.Nodes.Add("Project Settings");
+				projectSettingsNode.ImageKey = "gear.png";
+				projectSettingsNode.SelectedImageKey = "gear.png";
+
+				// Add project assemblies node
+				TreeNode assembliesNode = projectTree.Nodes.Add("Assemblies");
+				assembliesNode.ImageKey = "databases.png";
+				assembliesNode.SelectedImageKey = "databases.png";
+
+				// Add project assemblies
+				foreach (ProjectAssembly assembly in CurrentProject.Assemblies)
+				{
+					TreeNode assemblyNode = assembliesNode.Nodes.Add(assembly.Path);
+					string imageKey = assembly.Load ? "database--plus.png" : "database--minus.png";
+                    assemblyNode.ImageKey = imageKey;
+					assemblyNode.SelectedImageKey = imageKey;
+				}
+
+				assembliesNode.Expand();
 			}
+			else
+			{
+				// No project loaded node
+				TreeNode noProjectNode = projectTree.Nodes.Add("No Project Loaded");
+				noProjectNode.ImageKey = "exclamation-button.png";
+				noProjectNode.SelectedImageKey = "exclamation-button.png";
+			}			
 		}
 
         public void UpdateAssemblyTreeView()
@@ -145,5 +151,52 @@ namespace UnityExtensionPatcher
 			}
 		}
 
-    }
+		private void menuQuit_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
+
+		private void menuNewProject_Click(object sender, EventArgs e)
+		{
+			NewProjectWindow window = new NewProjectWindow();
+			window.ShowDialog();
+			UpdateProjectTreeView();
+			UpdateAssemblyTreeView();
+		}
+
+		private void menuOpenProject_Click(object sender, EventArgs e)
+		{
+			var dialog = new OpenFileDialog()
+			{
+				AddExtension = true,
+				CheckFileExists = true,
+				DefaultExt = ProjectManifest.PROJECT_MANIFEST_EXTENSION,
+				Filter = $"{ProjectManifest.PROJECT_MANIFEST_EXTENSION}|*{ProjectManifest.PROJECT_MANIFEST_EXTENSION}",
+				Multiselect = false,
+                ValidateNames = true,
+			};
+			var result = dialog.ShowDialog();
+			if(result == DialogResult.OK)
+			{
+				CloseProject();
+                CurrentProject = ProjectManifest.Load(dialog.FileName);
+				CurrentProject.Load(LoadAssembly);
+				UpdateProjectTreeView();
+				UpdateAssemblyTreeView();
+			}
+        }
+
+		private void menuCloseProject_Click(object sender, EventArgs e)
+		{
+			CloseProject();
+        }
+
+		private void CloseProject()
+		{
+			loadedAssemblies.Clear();
+			CurrentProject = null;
+			UpdateProjectTreeView();
+			UpdateAssemblyTreeView();
+		}
+	}
 }

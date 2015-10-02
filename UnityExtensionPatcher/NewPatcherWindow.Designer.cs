@@ -32,17 +32,21 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewPatcherWindow));
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuNewProject = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuOpenProject = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuCloseProject = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+			this.projectTree = new System.Windows.Forms.TreeView();
+			this.projectTreeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.assemblyTree = new System.Windows.Forms.TreeView();
 			this.assemblyTreeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
-			this.projectTree = new System.Windows.Forms.TreeView();
-			this.projectTreeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -68,16 +72,47 @@
 			// fileToolStripMenuItem
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.quitToolStripMenuItem});
+            this.menuNewProject,
+            this.menuOpenProject,
+            this.menuCloseProject,
+            this.toolStripSeparator1,
+            this.menuQuit});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
-			// quitToolStripMenuItem
+			// menuNewProject
 			// 
-			this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-			this.quitToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
-			this.quitToolStripMenuItem.Text = "Quit";
+			this.menuNewProject.Name = "menuNewProject";
+			this.menuNewProject.Size = new System.Drawing.Size(143, 22);
+			this.menuNewProject.Text = "New Project";
+			this.menuNewProject.Click += new System.EventHandler(this.menuNewProject_Click);
+			// 
+			// menuOpenProject
+			// 
+			this.menuOpenProject.Name = "menuOpenProject";
+			this.menuOpenProject.Size = new System.Drawing.Size(143, 22);
+			this.menuOpenProject.Text = "Open Project";
+			this.menuOpenProject.Click += new System.EventHandler(this.menuOpenProject_Click);
+			// 
+			// menuCloseProject
+			// 
+			this.menuCloseProject.Name = "menuCloseProject";
+			this.menuCloseProject.Size = new System.Drawing.Size(143, 22);
+			this.menuCloseProject.Text = "Close Project";
+			this.menuCloseProject.Click += new System.EventHandler(this.menuCloseProject_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
+			// 
+			// menuQuit
+			// 
+			this.menuQuit.Name = "menuQuit";
+			this.menuQuit.Size = new System.Drawing.Size(143, 22);
+			this.menuQuit.Text = "Quit";
+			this.menuQuit.Click += new System.EventHandler(this.menuQuit_Click);
 			// 
 			// statusStrip1
 			// 
@@ -122,8 +157,31 @@
 			// 
 			this.splitContainer2.Panel2.Controls.Add(this.assemblyTree);
 			this.splitContainer2.Size = new System.Drawing.Size(352, 528);
-			this.splitContainer2.SplitterDistance = 202;
+			this.splitContainer2.SplitterDistance = 166;
 			this.splitContainer2.TabIndex = 1;
+			// 
+			// projectTree
+			// 
+			this.projectTree.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.projectTree.ImageIndex = 0;
+			this.projectTree.ImageList = this.projectTreeImageList;
+			this.projectTree.Location = new System.Drawing.Point(0, 0);
+			this.projectTree.Name = "projectTree";
+			this.projectTree.SelectedImageIndex = 0;
+			this.projectTree.Size = new System.Drawing.Size(352, 166);
+			this.projectTree.TabIndex = 0;
+			// 
+			// projectTreeImageList
+			// 
+			this.projectTreeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("projectTreeImageList.ImageStream")));
+			this.projectTreeImageList.TransparentColor = System.Drawing.Color.Transparent;
+			this.projectTreeImageList.Images.SetKeyName(0, "Blank.png");
+			this.projectTreeImageList.Images.SetKeyName(1, "gear.png");
+			this.projectTreeImageList.Images.SetKeyName(2, "database.png");
+			this.projectTreeImageList.Images.SetKeyName(3, "database--minus.png");
+			this.projectTreeImageList.Images.SetKeyName(4, "database--plus.png");
+			this.projectTreeImageList.Images.SetKeyName(5, "databases.png");
+			this.projectTreeImageList.Images.SetKeyName(6, "exclamation-button.png");
 			// 
 			// assemblyTree
 			// 
@@ -134,7 +192,7 @@
 			this.assemblyTree.Name = "assemblyTree";
 			this.assemblyTree.SelectedImageIndex = 0;
 			this.assemblyTree.ShowNodeToolTips = true;
-			this.assemblyTree.Size = new System.Drawing.Size(352, 322);
+			this.assemblyTree.Size = new System.Drawing.Size(352, 358);
 			this.assemblyTree.TabIndex = 1;
 			// 
 			// assemblyTreeImageList
@@ -165,7 +223,7 @@
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPage1.Size = new System.Drawing.Size(701, 502);
 			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "tabPage1";
+			this.tabPage1.Text = "Project Settings";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
 			// tabPage2
@@ -175,30 +233,8 @@
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPage2.Size = new System.Drawing.Size(701, 502);
 			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "tabPage2";
+			this.tabPage2.Text = "Assembly Explorer";
 			this.tabPage2.UseVisualStyleBackColor = true;
-			// 
-			// projectTree
-			// 
-			this.projectTree.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.projectTree.ImageIndex = 0;
-			this.projectTree.ImageList = this.projectTreeImageList;
-			this.projectTree.Location = new System.Drawing.Point(0, 0);
-			this.projectTree.Name = "projectTree";
-			this.projectTree.SelectedImageIndex = 0;
-			this.projectTree.Size = new System.Drawing.Size(352, 202);
-			this.projectTree.TabIndex = 0;
-			// 
-			// projectTreeImageList
-			// 
-			this.projectTreeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("projectTreeImageList.ImageStream")));
-			this.projectTreeImageList.TransparentColor = System.Drawing.Color.Transparent;
-			this.projectTreeImageList.Images.SetKeyName(0, "Blank.png");
-			this.projectTreeImageList.Images.SetKeyName(1, "gear.png");
-			this.projectTreeImageList.Images.SetKeyName(2, "database.png");
-			this.projectTreeImageList.Images.SetKeyName(3, "database--minus.png");
-			this.projectTreeImageList.Images.SetKeyName(4, "database--plus.png");
-			this.projectTreeImageList.Images.SetKeyName(5, "databases.png");
 			// 
 			// NewPatcherWindow
 			// 
@@ -232,7 +268,7 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuQuit;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TabControl tabControl1;
@@ -243,5 +279,9 @@
 		private System.Windows.Forms.TreeView assemblyTree;
 		private System.Windows.Forms.TreeView projectTree;
 		private System.Windows.Forms.ImageList projectTreeImageList;
+		private System.Windows.Forms.ToolStripMenuItem menuNewProject;
+		private System.Windows.Forms.ToolStripMenuItem menuOpenProject;
+		private System.Windows.Forms.ToolStripMenuItem menuCloseProject;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 	}
 }
