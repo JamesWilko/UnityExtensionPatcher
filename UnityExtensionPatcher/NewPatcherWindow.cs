@@ -92,7 +92,8 @@ namespace UnityExtensionPatcher
 				loadedAssemblies.Clear();
 				foreach (var assembly in CurrentProject.Assemblies)
 				{
-					LoadAssembly(assembly.Path);
+					string path = Path.Combine(CurrentProject.ProjectFolder, assembly.Path);
+					LoadAssembly(path);
                 }
 
 				// Add each assembly data to the tree
@@ -105,28 +106,40 @@ namespace UnityExtensionPatcher
 
 		private void LoadAssembly(string path)
 		{
-			ModuleDefinition module = ModuleDefinition.ReadModule(path);
-			if (module != null)
+			try
 			{
-				// Add the assembly module to our dictionary
-				AssemblyData assemblyData = new AssemblyData(path, module);
-				loadedAssemblies.Add(path, assemblyData);
-
-				// Create global namespace
-				assemblyData.AddNamespace("", new NamespaceData("global"));
-				NamespaceData namespaceData;
-
-				// Find namespaces in the loaded assembly
-				foreach (TypeDefinition type in module.Types)
+				ModuleDefinition module = ModuleDefinition.ReadModule(path);
+				if (module != null)
 				{
-					bool existingNamespace = assemblyData.Namespaces.TryGetValue(type.Namespace, out namespaceData);
-					if (!existingNamespace)
+					// Add the assembly module to our dictionary
+					AssemblyData assemblyData = new AssemblyData(path, module);
+					loadedAssemblies.Add(path, assemblyData);
+
+					// Create global namespace
+					assemblyData.AddNamespace("", new NamespaceData("global"));
+					NamespaceData namespaceData;
+
+					// Find namespaces in the loaded assembly
+					foreach (TypeDefinition type in module.Types)
 					{
-						namespaceData = new NamespaceData(type.Namespace);
-						assemblyData.AddNamespace(type.Namespace, namespaceData);
+						bool existingNamespace = assemblyData.Namespaces.TryGetValue(type.Namespace, out namespaceData);
+						if (!existingNamespace)
+						{
+							namespaceData = new NamespaceData(type.Namespace);
+							assemblyData.AddNamespace(type.Namespace, namespaceData);
+						}
+						namespaceData.Add(type);
+
 					}
-					namespaceData.Add(type);
 				}
+			}
+			catch(Exception exception)
+			{
+				Console.WriteLine($"{exception.Message}{Environment.NewLine}{exception.StackTrace}");
+				string nodeString = $"Could not load assembly: {path}";
+				TreeNode node = assemblyTree.Nodes.Add(nodeString);
+				node.ImageKey = "exclamation-red-frame.png";
+				node.SelectedImageKey = "exclamation-red-frame.png";
 			}
 		}
 

@@ -209,6 +209,7 @@
 			this.assemblyTreeImageList.Images.SetKeyName(2, "NameSpace.png");
 			this.assemblyTreeImageList.Images.SetKeyName(3, "Event.png");
 			this.assemblyTreeImageList.Images.SetKeyName(4, "Class.png");
+			this.assemblyTreeImageList.Images.SetKeyName(5, "exclamation-red-frame.png");
 			// 
 			// tabControl1
 			// 
