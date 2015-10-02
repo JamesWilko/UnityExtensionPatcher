@@ -47,6 +47,9 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.contextProjectAssembly = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.includeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -57,6 +60,7 @@
 			this.splitContainer2.Panel2.SuspendLayout();
 			this.splitContainer2.SuspendLayout();
 			this.tabControl1.SuspendLayout();
+			this.contextProjectAssembly.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -170,6 +174,7 @@
 			this.projectTree.SelectedImageIndex = 0;
 			this.projectTree.Size = new System.Drawing.Size(352, 166);
 			this.projectTree.TabIndex = 0;
+			this.projectTree.MouseUp += new System.Windows.Forms.MouseEventHandler(this.projectTree_MouseUp);
 			// 
 			// projectTreeImageList
 			// 
@@ -236,6 +241,28 @@
 			this.tabPage2.Text = "Assembly Explorer";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
+			// contextProjectAssembly
+			// 
+			this.contextProjectAssembly.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.includeToolStripMenuItem,
+            this.removeToolStripMenuItem});
+			this.contextProjectAssembly.Name = "contextProjectAssembly";
+			this.contextProjectAssembly.Size = new System.Drawing.Size(118, 48);
+			// 
+			// includeToolStripMenuItem
+			// 
+			this.includeToolStripMenuItem.Name = "includeToolStripMenuItem";
+			this.includeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.includeToolStripMenuItem.Text = "Include";
+			this.includeToolStripMenuItem.Click += new System.EventHandler(this.includeToolStripMenuItem_Click);
+			// 
+			// removeToolStripMenuItem
+			// 
+			this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+			this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.removeToolStripMenuItem.Text = "Remove";
+			this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+			// 
 			// NewPatcherWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -259,6 +286,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
 			this.splitContainer2.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
+			this.contextProjectAssembly.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -283,5 +311,8 @@
 		private System.Windows.Forms.ToolStripMenuItem menuOpenProject;
 		private System.Windows.Forms.ToolStripMenuItem menuCloseProject;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ContextMenuStrip contextProjectAssembly;
+		private System.Windows.Forms.ToolStripMenuItem includeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
 	}
 }

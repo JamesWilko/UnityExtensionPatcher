@@ -56,6 +56,12 @@ namespace UnityExtensionPatcher.Data
 			this.Save();
 		}
 
+		public void RemoveAssembly(ProjectAssembly assembly)
+		{
+			Assemblies.Remove(assembly);
+			Save();
+		}
+
 		#region File Operations
 
 		public void Save()

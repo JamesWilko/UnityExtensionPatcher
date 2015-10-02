@@ -26,12 +26,14 @@ namespace UnityExtensionPatcher
 			this.DragDrop += NewPatcherWindow_DragDrop;
         }
 
-		Dictionary<string, AssemblyData> loadedAssemblies = new Dictionary<string, AssemblyData>();
 		ProjectManifest CurrentProject {
 			get { return Program.CurrentProject; }
 			set { Program.CurrentProject = value; }
 		}
 		bool HasLoadedProject { get { return CurrentProject != null; } }
+
+		Dictionary<string, AssemblyData> loadedAssemblies = new Dictionary<string, AssemblyData>();
+		Dictionary<TreeNode, ProjectAssembly> projectAssemblies = new Dictionary<TreeNode, ProjectAssembly>();
 
 		private void NewPatcherWindow_Load(object sender, EventArgs e)
 		{
@@ -57,13 +59,16 @@ namespace UnityExtensionPatcher
 				assembliesNode.SelectedImageKey = "databases.png";
 
 				// Add project assemblies
-				foreach (ProjectAssembly assembly in CurrentProject.Assemblies)
+				projectAssemblies.Clear();
+                foreach (ProjectAssembly assembly in CurrentProject.Assemblies)
 				{
 					TreeNode assemblyNode = assembliesNode.Nodes.Add(assembly.Path);
 					string imageKey = assembly.Load ? "database--plus.png" : "database--minus.png";
                     assemblyNode.ImageKey = imageKey;
 					assemblyNode.SelectedImageKey = imageKey;
-				}
+
+					projectAssemblies.Add(assemblyNode, assembly);
+                }
 
 				assembliesNode.Expand();
 			}
@@ -267,6 +272,45 @@ namespace UnityExtensionPatcher
                 }
 
 				// Update view
+				UpdateProjectTreeView();
+				UpdateAssemblyTreeView();
+			}
+		}
+
+		#endregion
+
+		#region Project Assemblies Context Menu
+
+		private void projectTree_MouseUp(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				// Select the node we clicked on in the tree
+				projectTree.SelectedNode = projectTree.GetNodeAt(e.X, e.Y);
+				if (projectTree.SelectedNode != null)
+				{
+					// Clicked an assembly, show the assemblies context menu
+					if (projectAssemblies.ContainsKey(projectTree.SelectedNode))
+					{
+						contextProjectAssembly.Show(projectTree, e.Location);
+					}
+				}
+			}
+		}
+
+		private void includeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (projectAssemblies.ContainsKey(projectTree.SelectedNode))
+			{
+				// Remove the assembly from the project
+				CurrentProject.RemoveAssembly(projectAssemblies[projectTree.SelectedNode]);
+
+				// Update the view
 				UpdateProjectTreeView();
 				UpdateAssemblyTreeView();
 			}
