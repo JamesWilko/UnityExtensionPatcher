@@ -13,6 +13,8 @@ namespace UnityExtensionPatcher.Data
 		public ModuleDefinition Definition { get; private set; }
 		public Dictionary<string, NamespaceData> Namespaces { get; private set; }
 
+		public const string ASSEMBLY_EXTENSION = ".dll";
+
 		public AssemblyData(string path, ModuleDefinition definition)
 		{
 			this.Path = path;

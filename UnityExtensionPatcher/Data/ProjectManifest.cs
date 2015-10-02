@@ -14,6 +14,7 @@ namespace UnityExtensionPatcher.Data
 		public string ProjectName { get; set; }
 		public List<ProjectAssembly> Assemblies { get; set; }
 
+		public string ProjectFolder { get { return Path.Combine(ProjectPath, ProjectName); } }
 		public string ProjectFile { get { return Path.Combine(ProjectPath, ProjectName, $"{ProjectName}{PROJECT_MANIFEST_EXTENSION}"); } }
         public string ProjectTempFile { get { return Path.Combine(ProjectPath, ProjectName, $"{ProjectName}{PROJECT_MANIFEST_TEMP_EXTENSION}"); } }
 
@@ -46,12 +47,13 @@ namespace UnityExtensionPatcher.Data
 			AddAssembly(@"UnityEngine.UI.dll");
 		}
 		
-		void AddAssembly(string assemblyPath)
+		public void AddAssembly(string assemblyPath)
 		{
 			ProjectAssembly assembly = new ProjectAssembly();
 			assembly.Path = assemblyPath;
 			assembly.Load = true;
             this.Assemblies.Add(assembly);
+			this.Save();
 		}
 
 		#region File Operations
