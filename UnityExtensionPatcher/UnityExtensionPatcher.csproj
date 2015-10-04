@@ -97,6 +97,7 @@
     <Compile Include="Patcher\ExtensionsPatcher.cs" />
     <Compile Include="Patcher\ExtensionsPatcherResources.cs" />
     <Compile Include="Patcher\Logging.cs" />
+    <Compile Include="Patcher\MRUController.cs" />
     <Compile Include="Patches\LineAdditionPatch.cs" />
     <Compile Include="Patches\LineRemovalPatch.cs" />
     <Compile Include="Patches\Patch.cs" />

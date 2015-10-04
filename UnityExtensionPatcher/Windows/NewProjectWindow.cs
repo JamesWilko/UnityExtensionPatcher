@@ -42,6 +42,9 @@ namespace UnityExtensionPatcher.Windows
 			Program.Window.UpdateProjectTreeView();
 			Program.Window.UpdateAssemblyTreeView();
 
+			// Add project to the most recent projects list
+			Program.Window.MostRecentList.AddOrUpdate(Program.CurrentProject.ProjectFile);
+
 			// Close create project dialog
 			this.Close();
 		}

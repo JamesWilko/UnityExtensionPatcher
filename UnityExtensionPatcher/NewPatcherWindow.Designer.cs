@@ -50,6 +50,8 @@
 			this.contextProjectAssembly = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.includeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuMostRecent = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -80,6 +82,8 @@
             this.menuOpenProject,
             this.menuCloseProject,
             this.toolStripSeparator1,
+            this.menuMostRecent,
+            this.toolStripSeparator2,
             this.menuQuit});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -88,33 +92,33 @@
 			// menuNewProject
 			// 
 			this.menuNewProject.Name = "menuNewProject";
-			this.menuNewProject.Size = new System.Drawing.Size(143, 22);
+			this.menuNewProject.Size = new System.Drawing.Size(155, 22);
 			this.menuNewProject.Text = "New Project";
 			this.menuNewProject.Click += new System.EventHandler(this.menuNewProject_Click);
 			// 
 			// menuOpenProject
 			// 
 			this.menuOpenProject.Name = "menuOpenProject";
-			this.menuOpenProject.Size = new System.Drawing.Size(143, 22);
+			this.menuOpenProject.Size = new System.Drawing.Size(155, 22);
 			this.menuOpenProject.Text = "Open Project";
 			this.menuOpenProject.Click += new System.EventHandler(this.menuOpenProject_Click);
 			// 
 			// menuCloseProject
 			// 
 			this.menuCloseProject.Name = "menuCloseProject";
-			this.menuCloseProject.Size = new System.Drawing.Size(143, 22);
+			this.menuCloseProject.Size = new System.Drawing.Size(155, 22);
 			this.menuCloseProject.Text = "Close Project";
 			this.menuCloseProject.Click += new System.EventHandler(this.menuCloseProject_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(152, 6);
 			// 
 			// menuQuit
 			// 
 			this.menuQuit.Name = "menuQuit";
-			this.menuQuit.Size = new System.Drawing.Size(143, 22);
+			this.menuQuit.Size = new System.Drawing.Size(155, 22);
 			this.menuQuit.Text = "Quit";
 			this.menuQuit.Click += new System.EventHandler(this.menuQuit_Click);
 			// 
@@ -253,16 +257,27 @@
 			// includeToolStripMenuItem
 			// 
 			this.includeToolStripMenuItem.Name = "includeToolStripMenuItem";
-			this.includeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.includeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
 			this.includeToolStripMenuItem.Text = "Include";
 			this.includeToolStripMenuItem.Click += new System.EventHandler(this.includeToolStripMenuItem_Click);
 			// 
 			// removeToolStripMenuItem
 			// 
 			this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-			this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
 			this.removeToolStripMenuItem.Text = "Remove";
 			this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+			// 
+			// menuMostRecent
+			// 
+			this.menuMostRecent.Name = "menuMostRecent";
+			this.menuMostRecent.Size = new System.Drawing.Size(155, 22);
+			this.menuMostRecent.Text = "Recent Projects";
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(152, 6);
 			// 
 			// NewPatcherWindow
 			// 
@@ -315,5 +330,7 @@
 		private System.Windows.Forms.ContextMenuStrip contextProjectAssembly;
 		private System.Windows.Forms.ToolStripMenuItem includeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem menuMostRecent;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 	}
 }

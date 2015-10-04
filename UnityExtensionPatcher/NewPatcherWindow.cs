@@ -32,11 +32,17 @@ namespace UnityExtensionPatcher
 		}
 		bool HasLoadedProject { get { return CurrentProject != null; } }
 
+		public MRUController MostRecentList;
 		Dictionary<string, AssemblyData> loadedAssemblies = new Dictionary<string, AssemblyData>();
 		Dictionary<TreeNode, ProjectAssembly> projectAssemblies = new Dictionary<TreeNode, ProjectAssembly>();
 
+		const string APPLICATION_NAME = "UnityExtensionPatcher";
+		const int MAX_MOST_RECENT = 10;
+
 		private void NewPatcherWindow_Load(object sender, EventArgs e)
 		{
+			MostRecentList = new MRUController(APPLICATION_NAME, MAX_MOST_RECENT, menuMostRecent, LoadMostRecentProject);
+
 			UpdateProjectTreeView();
 			UpdateAssemblyTreeView();
         }
@@ -225,6 +231,44 @@ namespace UnityExtensionPatcher
 		{
 			CloseProject();
         }
+
+		private void LoadMostRecentProject(object sender, EventArgs e)
+		{
+			string path = sender.ToString();
+
+			// Check project exists
+			if(File.Exists(path))
+			{
+				LoadProject(sender.ToString());
+			}
+			else
+			{
+
+				// Project doesn't exist, check if we should remove it from the list
+				DialogResult result = MessageBox.Show($"Could not find project at '{sender}'.{Environment.NewLine}{Environment.NewLine}Do you want to remove it from the list?", "Could Not Open Project", MessageBoxButtons.YesNo);
+				if (result == DialogResult.Yes)
+				{
+					MostRecentList.Remove(sender.ToString());
+				}
+			}
+		}
+
+		private void LoadProject(string path)
+		{
+			try
+			{
+				CloseProject();
+				CurrentProject = ProjectManifest.Load(path);
+
+				MostRecentList.AddOrUpdate(path);
+				UpdateProjectTreeView();
+				UpdateAssemblyTreeView();
+			}
+			catch(Exception exception)
+			{
+				Console.WriteLine($"{exception.Message}{Environment.NewLine}{exception.StackTrace}");
+			}
+		}
 
 		private void CloseProject()
 		{
