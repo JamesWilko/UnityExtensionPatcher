@@ -219,12 +219,8 @@ namespace UnityExtensionPatcher
 			var result = dialog.ShowDialog();
 			if(result == DialogResult.OK)
 			{
-				CloseProject();
-                CurrentProject = ProjectManifest.Load(dialog.FileName);
-				CurrentProject.Load(LoadAssembly);
-				UpdateProjectTreeView();
-				UpdateAssemblyTreeView();
-			}
+				LoadProject(dialog.FileName);
+            }
         }
 
 		private void menuCloseProject_Click(object sender, EventArgs e)

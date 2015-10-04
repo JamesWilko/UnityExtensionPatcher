@@ -80,17 +80,6 @@ namespace UnityExtensionPatcher.Data
             }
 		}
 
-		public void Load(Action<string> loadAssemblyFunc)
-		{
-			foreach (ProjectAssembly assembly in this.Assemblies)
-			{
-				if (assembly.Load)
-				{
-					loadAssemblyFunc(assembly.Path);
-				}
-			}
-		}
-
 		public static ProjectManifest Load(string filePath)
 		{
 			if(File.Exists(filePath))
