@@ -10,5 +10,10 @@ namespace UnityExtensionPatcher.Data
 	{
 		public string Path;
 		public bool Load;
+
+		public override string ToString()
+		{
+			return $"ProjectAssembly [Path: {Path}][Load: {Load}]";
+        }
 	}
 }

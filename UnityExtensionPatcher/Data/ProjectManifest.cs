@@ -39,14 +39,8 @@ namespace UnityExtensionPatcher.Data
 			}
 		}
 
-		public void AddDebug()
-		{
-			AddAssembly(@"Assembly-CSharp.dll");
-			AddAssembly(@"System.dll");
-			AddAssembly(@"UnityEngine.dll");
-			AddAssembly(@"UnityEngine.UI.dll");
-		}
-		
+		#region Assemblies
+
 		public void AddAssembly(string assemblyPath)
 		{
 			ProjectAssembly assembly = new ProjectAssembly();
@@ -61,6 +55,28 @@ namespace UnityExtensionPatcher.Data
 			Assemblies.Remove(assembly);
 			Save();
 		}
+
+		public bool IsAssemblyIncluded(ProjectAssembly assembly)
+		{
+			return assembly.Load;
+		}
+
+		public void SetAssemblyIncluded(ProjectAssembly assembly, bool include)
+		{
+			for(int i = 0; i < this.Assemblies.Count; ++i)
+			{
+				if(Assemblies[i].Equals(assembly))
+				{
+					ProjectAssembly asm = Assemblies[i];
+					asm.Load = include;
+					Assemblies[i] = asm;
+                    break;
+				}
+			}
+			Save();
+		}
+
+		#endregion
 
 		#region File Operations
 

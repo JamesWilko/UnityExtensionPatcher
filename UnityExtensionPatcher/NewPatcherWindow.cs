@@ -70,7 +70,7 @@ namespace UnityExtensionPatcher
 				{
 					TreeNode assemblyNode = assembliesNode.Nodes.Add(assembly.Path);
 					string imageKey = assembly.Load ? "database--plus.png" : "database--minus.png";
-                    assemblyNode.ImageKey = imageKey;
+					assemblyNode.ImageKey = imageKey;
 					assemblyNode.SelectedImageKey = imageKey;
 
 					projectAssemblies.Add(assemblyNode, assembly);
@@ -98,8 +98,11 @@ namespace UnityExtensionPatcher
 				loadedAssemblies.Clear();
 				foreach (var assembly in CurrentProject.Assemblies)
 				{
-					string path = Path.Combine(CurrentProject.ProjectFolder, assembly.Path);
-					LoadAssembly(path);
+					if (assembly.Load)
+					{
+						string path = Path.Combine(CurrentProject.ProjectFolder, assembly.Path);
+						LoadAssembly(path);
+					}
                 }
 
 				// Add each assembly data to the tree
@@ -345,6 +348,11 @@ namespace UnityExtensionPatcher
 					// Clicked an assembly, show the assemblies context menu
 					if (projectAssemblies.ContainsKey(projectTree.SelectedNode))
 					{
+						// Update menu text
+						ProjectAssembly assembly = projectAssemblies[projectTree.SelectedNode];
+						includeToolStripMenuItem.Text = assembly.Load ? "Exclude" : "Include";
+
+						// Show context menu
 						contextProjectAssembly.Show(projectTree, e.Location);
 					}
 				}
@@ -353,7 +361,17 @@ namespace UnityExtensionPatcher
 
 		private void includeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (projectAssemblies.ContainsKey(projectTree.SelectedNode))
+			{
+				// Toggle the assembly inclusion status
+				ProjectAssembly assembly = projectAssemblies[projectTree.SelectedNode];
+				bool include = !CurrentProject.IsAssemblyIncluded(assembly);
+				CurrentProject.SetAssemblyIncluded(assembly, include);
 
+				// Update the view
+				UpdateProjectTreeView();
+				UpdateAssemblyTreeView();
+			}
 		}
 
 		private void removeToolStripMenuItem_Click(object sender, EventArgs e)
