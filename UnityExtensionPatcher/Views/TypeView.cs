@@ -20,17 +20,7 @@ namespace UnityExtensionPatcher.Views
 
 		public void SetType(TypeDefinition typeDefinition)
 		{
-			// Create declaration string
-			StringBuilder builder = new StringBuilder();
-			
-			string accessibilityStr = typeDefinition.IsPublic ? "public " : "private ";
-			string sealedStr = typeDefinition.IsSealed ? "sealed " : "";
-			string typeStr = "";
-			if (typeDefinition.IsClass)
-			{
-				typeStr = "class ";
-            }
-			textDeclaration.Text = $"{accessibilityStr}{sealedStr}{typeStr}{typeDefinition.Name} : {typeDefinition.BaseType.Name}";
+			textDeclaration.Text = Utils.TypeNameUtils.GetTypeDeclarationString(typeDefinition);
         }
 	}
 }

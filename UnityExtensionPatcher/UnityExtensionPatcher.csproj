@@ -105,6 +105,7 @@
     <Compile Include="Patches\PatchCollection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\TypeNameUtils.cs" />
     <Compile Include="Views\TypeView.cs">
       <SubType>UserControl</SubType>
     </Compile>
