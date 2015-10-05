@@ -126,7 +126,7 @@ namespace UnityExtensionPatcher
 					loadedAssemblies.Add(path, assemblyData);
 
 					// Create global namespace
-					assemblyData.AddNamespace("", new NamespaceData("global"));
+					assemblyData.AddNamespace("", new NamespaceData("-"));
 					NamespaceData namespaceData;
 
 					// Find namespaces in the loaded assembly
@@ -139,9 +139,8 @@ namespace UnityExtensionPatcher
 							assemblyData.AddNamespace(type.Namespace, namespaceData);
 						}
 						namespaceData.Add(type);
-
 					}
-				}
+                }
 			}
 			catch(Exception exception)
 			{
@@ -197,7 +196,10 @@ namespace UnityExtensionPatcher
 					typeNode.Tag = new ProjectTreeNodeData(TreeNodeType.Type, type);
 				}
 			}
-		}
+			
+			// Sort nodes alphabetically
+			assemblyTree.Sort();
+        }
 
 		private void menuQuit_Click(object sender, EventArgs e)
 		{
