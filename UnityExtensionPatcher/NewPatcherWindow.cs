@@ -72,6 +72,7 @@ namespace UnityExtensionPatcher
 					string imageKey = assembly.Load ? "database--plus.png" : "database--minus.png";
 					assemblyNode.ImageKey = imageKey;
 					assemblyNode.SelectedImageKey = imageKey;
+					assemblyNode.Tag = new ProjectTreeNodeData(TreeNodeType.ProjectAssembly);
 
 					projectAssemblies.Add(assemblyNode, assembly);
                 }
@@ -159,6 +160,7 @@ namespace UnityExtensionPatcher
 			assemblyNode.ToolTipText = $"Location: {assemblyData.Path}";
             assemblyNode.ImageKey = "Assembly.png";
 			assemblyNode.SelectedImageKey = "Assembly.png";
+			assemblyNode.Tag = new ProjectTreeNodeData(TreeNodeType.Assembly);
 
 			// Add nodes from assemblies
 			foreach (KeyValuePair<string, NamespaceData> namespacePair in assemblyData.Namespaces)
@@ -167,6 +169,7 @@ namespace UnityExtensionPatcher
 				TreeNode namespaceNode = assemblyNode.Nodes.Add(data.Name);
 				namespaceNode.ImageKey = "NameSpace.png";
 				namespaceNode.SelectedImageKey = "NameSpace.png";
+				namespaceNode.Tag = new ProjectTreeNodeData(TreeNodeType.Namespace);
 
 				// Populate namespace types
 				foreach (TypeDefinition type in data.Types)
@@ -191,6 +194,7 @@ namespace UnityExtensionPatcher
 					TreeNode typeNode = namespaceNode.Nodes.Add(typeName);
 					typeNode.ImageKey = "Class.png";
 					typeNode.SelectedImageKey = "Class.png";
+					typeNode.Tag = new ProjectTreeNodeData(TreeNodeType.Type, type);
 				}
 			}
 		}
@@ -335,7 +339,7 @@ namespace UnityExtensionPatcher
 
 		#endregion
 
-		#region Project Assemblies Context Menu
+		#region Project Assemblies Context Menu Events
 
 		private void projectTree_MouseUp(object sender, MouseEventArgs e)
 		{
@@ -384,6 +388,119 @@ namespace UnityExtensionPatcher
 				// Update the view
 				UpdateProjectTreeView();
 				UpdateAssemblyTreeView();
+			}
+		}
+
+		#endregion
+
+		#region Assembly Tree Events
+
+		private void assemblyTree_MouseUp(object sender, MouseEventArgs e)
+		{
+		}
+
+		private void assemblyTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+		{
+			// Check if this node has data we can use
+			if (e.Node.Tag is ProjectTreeNodeData)
+			{
+				// Create the appropriate tab for the node selected
+				ProjectTreeNodeData nodeData = (ProjectTreeNodeData)e.Node.Tag;
+				switch (nodeData.nodeType)
+				{
+					default:
+					case TreeNodeType.None:
+						break;
+
+					case TreeNodeType.Type:
+						AddTypeViewTab($"{e.Node.Text}", nodeData);
+						break;
+				}
+			}
+		}
+
+		private void AddTypeViewTab(string tabName, ProjectTreeNodeData nodeData)
+		{
+			// Create new tab
+			tabsMain.TabPages.Add(tabName);
+
+			// Add the tab page as the tab content
+			TabPage page = tabsMain.TabPages[tabsMain.TabCount - 1];
+			Views.TypeView typeView = new Views.TypeView();
+			typeView.Dock = DockStyle.Fill;
+            page.Controls.Add(typeView);
+
+			// Set the tab information for this type
+			typeView.SetType(nodeData.typeDefinition);
+        }
+
+		#endregion
+
+		#region Tabs Events
+
+		private void tabsMain_MouseUp(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				for (int i = 0; i < tabsMain.TabCount; i++)
+				{
+					Rectangle r = tabsMain.GetTabRect(i);
+					if (r.Contains(e.Location))
+					{
+						// show the context menu here
+						contextTabControl.Tag = tabsMain.TabPages[i];
+                        contextTabControl.Show(tabsMain, e.Location);
+					}
+				}
+			}
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(contextTabControl.Tag != null)
+			{
+				tabsMain.TabPages.Remove(contextTabControl.Tag as TabPage);
+            }
+        }
+
+		private void closeOtherTabsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (contextTabControl.Tag != null)
+			{
+				for(int i = tabsMain.TabCount - 1; i >= 0; --i)
+				{
+					if(tabsMain.TabPages[i] == contextTabControl.Tag)
+					{
+						continue;
+					}
+					else
+					{
+						tabsMain.TabPages.RemoveAt(i);
+                    }
+				}
+			}
+		}
+
+		private void closeTabsToTheRightToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (contextTabControl.Tag != null)
+			{
+				int removeIndex = -1;
+				for (int i = 0; i < tabsMain.TabCount; ++i)
+				{
+					if (tabsMain.TabPages[i] == contextTabControl.Tag)
+					{
+						removeIndex = i;
+						break;
+					}
+				}
+				if (removeIndex >= 0)
+				{
+					for (int i = tabsMain.TabCount - 1; i > removeIndex; --i)
+					{
+						tabsMain.TabPages.RemoveAt(i);
+					}
+				}
 			}
 		}
 

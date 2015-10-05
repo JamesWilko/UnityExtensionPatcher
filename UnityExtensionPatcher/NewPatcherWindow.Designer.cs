@@ -36,6 +36,8 @@
 			this.menuOpenProject = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuCloseProject = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuMostRecent = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -44,14 +46,15 @@
 			this.projectTreeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.assemblyTree = new System.Windows.Forms.TreeView();
 			this.assemblyTreeImageList = new System.Windows.Forms.ImageList(this.components);
-			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.tabsMain = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.contextTabControl = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.closeOtherTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.closeTabsToTheRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextProjectAssembly = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.includeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuMostRecent = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -61,7 +64,8 @@
 			this.splitContainer2.Panel1.SuspendLayout();
 			this.splitContainer2.Panel2.SuspendLayout();
 			this.splitContainer2.SuspendLayout();
-			this.tabControl1.SuspendLayout();
+			this.tabsMain.SuspendLayout();
+			this.contextTabControl.SuspendLayout();
 			this.contextProjectAssembly.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -115,6 +119,17 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(152, 6);
 			// 
+			// menuMostRecent
+			// 
+			this.menuMostRecent.Name = "menuMostRecent";
+			this.menuMostRecent.Size = new System.Drawing.Size(155, 22);
+			this.menuMostRecent.Text = "Recent Projects";
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(152, 6);
+			// 
 			// menuQuit
 			// 
 			this.menuQuit.Name = "menuQuit";
@@ -144,7 +159,7 @@
 			// 
 			// splitContainer1.Panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
+			this.splitContainer1.Panel2.Controls.Add(this.tabsMain);
 			this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(0, 8, 8, 8);
 			this.splitContainer1.Size = new System.Drawing.Size(1081, 544);
 			this.splitContainer1.SplitterDistance = 360;
@@ -203,6 +218,8 @@
 			this.assemblyTree.ShowNodeToolTips = true;
 			this.assemblyTree.Size = new System.Drawing.Size(352, 358);
 			this.assemblyTree.TabIndex = 1;
+			this.assemblyTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.assemblyTree_NodeMouseDoubleClick);
+			this.assemblyTree.MouseUp += new System.Windows.Forms.MouseEventHandler(this.assemblyTree_MouseUp);
 			// 
 			// assemblyTreeImageList
 			// 
@@ -215,19 +232,20 @@
 			this.assemblyTreeImageList.Images.SetKeyName(4, "Class.png");
 			this.assemblyTreeImageList.Images.SetKeyName(5, "exclamation-red-frame.png");
 			// 
-			// tabControl1
+			// tabsMain
 			// 
-			this.tabControl1.Controls.Add(this.tabPage1);
-			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl1.Location = new System.Drawing.Point(0, 8);
-			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(709, 528);
-			this.tabControl1.TabIndex = 0;
+			this.tabsMain.Controls.Add(this.tabPage1);
+			this.tabsMain.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabsMain.Location = new System.Drawing.Point(0, 8);
+			this.tabsMain.Name = "tabsMain";
+			this.tabsMain.SelectedIndex = 0;
+			this.tabsMain.Size = new System.Drawing.Size(709, 528);
+			this.tabsMain.TabIndex = 0;
+			this.tabsMain.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tabsMain_MouseUp);
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.ContextMenuStrip = this.contextTabControl;
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -236,15 +254,35 @@
 			this.tabPage1.Text = "Project Settings";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
-			// tabPage2
+			// contextTabControl
 			// 
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(701, 502);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "Assembly Explorer";
-			this.tabPage2.UseVisualStyleBackColor = true;
+			this.contextTabControl.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeToolStripMenuItem,
+            this.closeOtherTabsToolStripMenuItem,
+            this.closeTabsToTheRightToolStripMenuItem});
+			this.contextTabControl.Name = "contextTabControl";
+			this.contextTabControl.Size = new System.Drawing.Size(197, 70);
+			// 
+			// closeToolStripMenuItem
+			// 
+			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.closeToolStripMenuItem.Text = "Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+			// 
+			// closeOtherTabsToolStripMenuItem
+			// 
+			this.closeOtherTabsToolStripMenuItem.Name = "closeOtherTabsToolStripMenuItem";
+			this.closeOtherTabsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.closeOtherTabsToolStripMenuItem.Text = "Close Other Tabs";
+			this.closeOtherTabsToolStripMenuItem.Click += new System.EventHandler(this.closeOtherTabsToolStripMenuItem_Click);
+			// 
+			// closeTabsToTheRightToolStripMenuItem
+			// 
+			this.closeTabsToTheRightToolStripMenuItem.Name = "closeTabsToTheRightToolStripMenuItem";
+			this.closeTabsToTheRightToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.closeTabsToTheRightToolStripMenuItem.Text = "Close Tabs to the Right";
+			this.closeTabsToTheRightToolStripMenuItem.Click += new System.EventHandler(this.closeTabsToTheRightToolStripMenuItem_Click);
 			// 
 			// contextProjectAssembly
 			// 
@@ -268,17 +306,6 @@
 			this.removeToolStripMenuItem.Text = "Remove";
 			this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
 			// 
-			// menuMostRecent
-			// 
-			this.menuMostRecent.Name = "menuMostRecent";
-			this.menuMostRecent.Size = new System.Drawing.Size(155, 22);
-			this.menuMostRecent.Text = "Recent Projects";
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(152, 6);
-			// 
 			// NewPatcherWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -301,7 +328,8 @@
 			this.splitContainer2.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
 			this.splitContainer2.ResumeLayout(false);
-			this.tabControl1.ResumeLayout(false);
+			this.tabsMain.ResumeLayout(false);
+			this.contextTabControl.ResumeLayout(false);
 			this.contextProjectAssembly.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -315,9 +343,6 @@
         private System.Windows.Forms.ToolStripMenuItem menuQuit;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.ImageList assemblyTreeImageList;
 		private System.Windows.Forms.SplitContainer splitContainer2;
 		private System.Windows.Forms.TreeView assemblyTree;
@@ -332,5 +357,11 @@
 		private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem menuMostRecent;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.TabControl tabsMain;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.ContextMenuStrip contextTabControl;
+		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem closeOtherTabsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem closeTabsToTheRightToolStripMenuItem;
 	}
 }
