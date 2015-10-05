@@ -431,6 +431,7 @@ namespace UnityExtensionPatcher
 			Views.TypeView typeView = new Views.TypeView();
 			typeView.Dock = DockStyle.Fill;
             page.Controls.Add(typeView);
+			tabsMain.SelectedIndex = tabsMain.TabCount - 1;
 
 			// Set the tab information for this type
 			typeView.SetType(nodeData.typeDefinition);
