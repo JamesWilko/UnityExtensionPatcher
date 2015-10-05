@@ -38,6 +38,7 @@ namespace UnityExtensionPatcher.Utils
 			string sealedStr = typeDefinition.IsSealed ? "sealed " : "";
 			string typeStr = "";
 			string typeNameStr = GetTypeNameWithGenerics(typeDefinition);
+			string baseTypeStr = typeDefinition.BaseType.Name != "Object" ? $" : {typeDefinition.BaseType.Name}" : "";
 
 			if (typeDefinition.IsClass)
 			{
@@ -70,7 +71,7 @@ namespace UnityExtensionPatcher.Utils
             }
 
 			// Return the full declaration string
-			return $"{accessibilityStr}{sealedStr}{typeStr}{typeNameStr} : {typeDefinition.BaseType.Name}{genericsStr}";
+			return $"{accessibilityStr}{sealedStr}{typeStr}{typeNameStr}{baseTypeStr}{genericsStr}";
 		}
     }
 }
