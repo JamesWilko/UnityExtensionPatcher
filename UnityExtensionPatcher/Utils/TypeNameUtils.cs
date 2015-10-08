@@ -33,45 +33,52 @@ namespace UnityExtensionPatcher.Utils
 
 		public static string GetTypeDeclarationString(TypeDefinition typeDefinition)
 		{
-			// Build declaration information
-			string accessibilityStr = typeDefinition.IsPublic ? "public " : "private ";
-			string sealedStr = typeDefinition.IsSealed ? "sealed " : "";
-			string typeStr = "";
-			string typeNameStr = GetTypeNameWithGenerics(typeDefinition);
-			string baseTypeStr = typeDefinition.BaseType.Name != "Object" ? $" : {typeDefinition.BaseType.Name}" : "";
-
-			if (typeDefinition.IsClass)
+			try
 			{
-				typeStr = "class ";
-			}
+				// Build declaration information
+				string accessibilityStr = typeDefinition.IsPublic ? "public " : "private ";
+				string sealedStr = typeDefinition.IsSealed ? "sealed " : "";
+				string typeStr = "";
+				string typeNameStr = GetTypeNameWithGenerics(typeDefinition);
+				string baseTypeStr = typeDefinition.BaseType.Name != "Object" ? $" : {typeDefinition.BaseType.Name}" : "";
 
-			// Check for generics
-			string genericsStr = "";
-			if (typeDefinition.HasGenericParameters)
-			{
-                foreach (GenericParameter param in typeDefinition.GenericParameters)
+				if (typeDefinition.IsClass)
 				{
-					string separator = genericsStr.Length == 0 ? "" : ", ";
-                    string paramString = "";
-					if(param.HasConstraints)
-					{
-						paramString = $"{param.Name} : ";
-                        foreach (var constraint in param.Constraints)
-						{
-							paramString = $"{paramString}{constraint.Name}";
-						}
-					}
-					else
-					{
-						paramString = $"{param.Name} : new()";
-                    }
-					genericsStr = $"{genericsStr}{separator}{paramString}";
+					typeStr = "class ";
 				}
-				genericsStr = $" where {genericsStr}";
-            }
 
-			// Return the full declaration string
-			return $"{accessibilityStr}{sealedStr}{typeStr}{typeNameStr}{baseTypeStr}{genericsStr}";
+				// Check for generics
+				string genericsStr = "";
+				if (typeDefinition.HasGenericParameters)
+				{
+					foreach (GenericParameter param in typeDefinition.GenericParameters)
+					{
+						string separator = genericsStr.Length == 0 ? "" : ", ";
+						string paramString = "";
+						if (param.HasConstraints)
+						{
+							paramString = $"{param.Name} : ";
+							foreach (var constraint in param.Constraints)
+							{
+								paramString = $"{paramString}{constraint.Name}";
+							}
+						}
+						else
+						{
+							paramString = $"{param.Name} : new()";
+						}
+						genericsStr = $"{genericsStr}{separator}{paramString}";
+					}
+					genericsStr = $" where {genericsStr}";
+				}
+
+				// Return the full declaration string
+				return $"{accessibilityStr}{sealedStr}{typeStr}{typeNameStr}{baseTypeStr}{genericsStr}";
+			}
+			catch(Exception exception)
+			{
+				return "Error: exception";
+			}
 		}
     }
 }

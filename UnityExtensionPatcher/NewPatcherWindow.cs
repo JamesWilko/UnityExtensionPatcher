@@ -175,6 +175,13 @@ namespace UnityExtensionPatcher
 				{
 					string typeName = type.Name;
 
+					// Don't add types that we don't ever need to do anything with
+					bool? ignoreType = typeName.ToCharArray()?[0].Equals('<');
+                    if (ignoreType.GetValueOrDefault(false))
+					{
+						continue;
+					}
+
 					// Check if the type has any generic parameters
 					if (type.HasGenericParameters)
 					{
