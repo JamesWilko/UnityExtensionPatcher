@@ -162,21 +162,41 @@ namespace UnityPatcher.Views
 				};
 				methodNode.MouseDoubleClick += (object sender, System.Windows.Input.MouseButtonEventArgs e) =>
 				{
-					if(method.HasBody)
-						detailView.textEditorIL.Text = Utils.Decompiler.ToIL(method.Body);
-                };
+					detailView.textBoxClassDeclaration.Text = Utils.TypeNameUtils.GetMethodDefintionFullName(method, typeDefinition);
+					if (method.HasBody)
+					{
+						detailView.textEditorIL.Text = Utils.Decompiler.ToIL(method);
+						detailView.textEditorSource.Text = Utils.Decompiler.ToSource(method);
+					}
+					else
+					{
+						var noBodyError = "Method has no body.";
+                        detailView.textEditorIL.Text = noBodyError;
+						detailView.textEditorSource.Text = noBodyError;
+					}
+				};
                 methodsNode.Items.Add(methodNode);
 			}
 
-			// Setup and add tab
+			// Setup frame
 			var frame = new Frame();
 			frame.Content = detailView;
 
+			// Setup tab and tab context menu
 			TabItem newTab = new TabItem();
 			newTab.Header = typeDefinition.Name;
 			newTab.Content = frame;
+			newTab.ContextMenu = new ContextMenu();
+
+			MenuItem closeTabItem = new MenuItem();
+			closeTabItem.Header = "Close";
+			closeTabItem.Click += (object sender, System.Windows.RoutedEventArgs e) =>
+			{
+				tabControl.Items.Remove(newTab);
+            };
+            newTab.ContextMenu.Items.Add(closeTabItem);
+
 			tabControl.SelectedIndex = tabControl.Items.Add(newTab);
 		}
-
 	}
 }

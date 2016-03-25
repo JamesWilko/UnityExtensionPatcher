@@ -11,12 +11,35 @@
 
     <Grid>
         <Label x:Name="label" Content="Typename:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="81"/>
-        <Label x:Name="label_Copy" Content="Declaration:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="81"/>
-        <TextBox x:Name="textBoxTypename" Height="24" Margin="96,14,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBoxDeclaration" Height="24" Margin="96,45,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <Label x:Name="label_Copy" Content="Declaration:" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="81"/>
+        <TextBox x:Name="textBoxTypename" Margin="96,16,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Consolas"/>
+        <TextBox x:Name="textBoxDeclaration" Margin="96,37,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Consolas"/>
+        <Grid Margin="10,62,10,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="60*" />
+            </Grid.ColumnDefinitions>
+            <UnityPatcher:TreeImageView x:Name="treeMembers" Margin="0,0,5,0"/>
+            <TabControl x:Name="tabControl" Grid.Column="2" Margin="5,31,0,25">
+                <TabItem Header="Source">
+                    <Grid Background="#FFE5E5E5">
+                        <avalonedit:TextEditor x:Name="textEditorSource" FontFamily="Consolas" ShowLineNumbers="True" IsReadOnly="True"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="IL">
+                    <Grid Background="#FFE5E5E5">
+                        <avalonedit:TextEditor x:Name="textEditorIL" FontFamily="Consolas" ShowLineNumbers="True" IsReadOnly="True" Grid.ColumnSpan="3"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <GridSplitter x:Name="gridSplitter" Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <TextBox x:Name="textBoxClassDeclaration" Grid.Column="2" Margin="84,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Consolas"/>
+            <Label x:Name="label1_Copy" Content="Declaration:" Grid.Column="2" HorizontalAlignment="Left" Margin="0,4,0,0" VerticalAlignment="Top" Width="84"/>
+            <Button x:Name="buttonHook" Content="Hook" Grid.Column="2" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom"/>
+            <Button x:Name="buttonGotoHook" Content="Goto Hook" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,80,0" Width="75" IsEnabled="False" Height="20" VerticalAlignment="Bottom"/>
 
-        <UnityPatcher:TreeImageView x:Name="treeMembers" Margin="10,74,0,10" HorizontalAlignment="Left" Width="208"/>
-        <avalonedit:TextEditor x:Name="textEditorIL" Margin="223,74,10,10" FontFamily="Consolas" ShowLineNumbers="True" IsReadOnly="True"/>
+        </Grid>
 
     </Grid>
 </Page>

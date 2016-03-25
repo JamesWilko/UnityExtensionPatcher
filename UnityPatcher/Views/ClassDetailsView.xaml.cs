@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ICSharpCode.AvalonEdit.Highlighting;
 
 namespace UnityPatcher.Views
 {
@@ -24,8 +25,10 @@ namespace UnityPatcher.Views
 		{
 			InitializeComponent();
 
-			textBoxDeclaration.IsReadOnly = true;
 			textBoxTypename.IsReadOnly = true;
+			textBoxDeclaration.IsReadOnly = true;
+			textBoxClassDeclaration.IsReadOnly = true;
+			textEditorSource.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
 		}
 	}
 }
