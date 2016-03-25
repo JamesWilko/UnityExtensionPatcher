@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mono.Cecil;
 using Newtonsoft.Json;
 using UnityPatcher.Utils;
 
@@ -14,6 +15,26 @@ namespace UnityPatcher.Data
 		public string ProjectPath { get; set; }
 		public string ProjectName { get; set; }
 		public List<ProjectAssembly> Assemblies { get; set; }
+
+		[JsonIgnore]
+		protected ReaderParameters m_ReaderParams;
+		[JsonIgnore]
+		public ReaderParameters ReaderParams
+		{
+			get
+			{
+				if (m_ReaderParams == null)
+				{
+					var resolver = new DefaultAssemblyResolver();
+					resolver.AddSearchDirectory(ProjectFolder);
+					m_ReaderParams = new ReaderParameters
+					{
+						AssemblyResolver = resolver,
+					};
+				}
+				return m_ReaderParams;
+            }
+		}
 
 		[JsonIgnore]
 		public string ProjectFolder { get { return Path.Combine(ProjectPath, ProjectName); } }

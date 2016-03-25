@@ -20,7 +20,7 @@ namespace UnityPatcher.Data
 
 		public void LoadAssembly()
 		{
-			ModuleDefinition module = ModuleDefinition.ReadModule(FullPath);
+			ModuleDefinition module = ModuleDefinition.ReadModule(FullPath, App.CurrentProject.ReaderParams);
 			if (module != null)
 			{
 				// Add the assembly module to our dictionary
