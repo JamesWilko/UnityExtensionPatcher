@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mono.Cecil;
 
-namespace UnityExtensionPatcher.Data
+namespace UnityPatcher.Data
 {
 	public enum TreeNodeType
 	{
@@ -26,7 +26,7 @@ namespace UnityExtensionPatcher.Data
 		{
 			this.nodeType = type;
 			this.typeDefinition = null;
-        }
+		}
 		public ProjectTreeNodeData(TreeNodeType type, TypeDefinition typeDef)
 		{
 			this.nodeType = type;
