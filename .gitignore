@@ -1,6 +1,3 @@
-UnityExtensionPatcher/obj/
-UnityExtensionPatcher/bin/
-Patches/BigPharmaExtensions/bin/
-Patches/BigPharmaExtensions/obj/
-UnityExtensionPatcher/Thumbs.db
-UnityExtensionPatcher/Images/Thumbs.db
+UnityPatcher/bin/
+UnityPatcher/obj/
+*Thumbs.db

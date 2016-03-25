@@ -1,0 +1,22 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UnityPatcher.Views"
+      xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:UnityPatcher="clr-namespace:UnityPatcher" x:Class="UnityPatcher.Views.ClassDetailsView"
+      mc:Ignorable="d" 
+      d:DesignHeight="350.5" d:DesignWidth="431.5"
+      Title="ClassDetailsView">
+
+    <Grid>
+        <Label x:Name="label" Content="Typename:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="81"/>
+        <Label x:Name="label_Copy" Content="Declaration:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="81"/>
+        <TextBox x:Name="textBoxTypename" Height="24" Margin="96,14,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBoxDeclaration" Height="24" Margin="96,45,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+
+        <UnityPatcher:TreeImageView x:Name="treeMembers" Margin="10,74,0,10" HorizontalAlignment="Left" Width="208"/>
+        <avalonedit:TextEditor x:Name="textEditorIL" Margin="223,74,10,10" FontFamily="Consolas" ShowLineNumbers="True" IsReadOnly="True"/>
+
+    </Grid>
+</Page>
