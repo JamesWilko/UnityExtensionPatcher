@@ -174,61 +174,61 @@ namespace UnityPatcher.Utils
 			}
 		}
 
-		public static string GetFieldDefinitionScope(this FieldDefinition fieldDefinition)
+		public static string GetFieldDefinitionScope(this FieldDefinition def)
 		{
-			if (fieldDefinition.IsPublic)
+			if (def.IsPublic)
 				return "public";
-			else if (fieldDefinition.IsPrivate)
+			else if (def.IsPrivate)
 				return "private";
-			else if (fieldDefinition.IsFamilyAndAssembly)
+			else if (def.IsFamilyAndAssembly)
 				return "protected";
 			else
 				return "internal";
 		}
 
-		public static string GetFieldDefintionQualifier(this FieldDefinition fieldDefinition)
+		public static string GetFieldDefintionQualifier(this FieldDefinition def)
 		{
-			if (fieldDefinition.IsStatic)
-				return $"{GetFieldDefinitionScope(fieldDefinition)} static";
+			if (def.IsStatic)
+				return $"{GetFieldDefinitionScope(def)} static";
 			else
-				return $"{GetFieldDefinitionScope(fieldDefinition)}";
+				return $"{GetFieldDefinitionScope(def)}";
 		}
 
-		public static string GetFieldDefintionFullName(this FieldDefinition fieldDefinition)
+		public static string GetFieldDefintionFullName(this FieldDefinition def)
 		{
-			return $"{fieldDefinition.GetFieldDefintionQualifier()} {TransformTypeName(fieldDefinition.FieldType.Name)} {fieldDefinition.Name}";
+			return $"{def.GetFieldDefintionQualifier()} {TransformTypeName(def.FieldType.Name)} {def.Name}";
 		}
 
-		public static string GetMethodDefintionScope(this MethodDefinition methodDefinition)
+		public static string GetMethodDefintionScope(this MethodDefinition def)
 		{
-			if (methodDefinition.IsPublic)
+			if (def.IsPublic)
 				return "public";
-			else if (methodDefinition.IsPrivate)
+			else if (def.IsPrivate)
 				return "private";
-			else if (methodDefinition.IsFamilyAndAssembly)
+			else if (def.IsFamilyAndAssembly)
 				return "protected";
 			else
 				return "internal";
 		}
 
-		public static string GetMethodDefintionQualifier(this MethodDefinition methodDefinition)
+		public static string GetMethodDefintionQualifier(this MethodDefinition def)
 		{
-			if (methodDefinition.IsStatic)
-				return $"{methodDefinition.GetMethodDefintionScope()} static";
-			else if (methodDefinition.IsAbstract)
-				return $"{methodDefinition.GetMethodDefintionScope()} abstract";
-			else if (methodDefinition.IsVirtual)
-				return $"{methodDefinition.GetMethodDefintionScope()} virtual";
+			if (def.IsStatic)
+				return $"{def.GetMethodDefintionScope()} static";
+			else if (def.IsAbstract)
+				return $"{def.GetMethodDefintionScope()} abstract";
+			else if (def.IsVirtual)
+				return $"{def.GetMethodDefintionScope()} virtual";
 			else
-				return $"{methodDefinition.GetMethodDefintionScope()}";
+				return $"{def.GetMethodDefintionScope()}";
 		}
 
-		public static string GetMethodDefinitionParameters(this MethodDefinition methodDefinition)
+		public static string GetMethodDefinitionParameters(this MethodDefinition def)
 		{
-			if (methodDefinition.HasParameters)
+			if (def.HasParameters)
 			{
 				string parameterString = string.Empty;
-				foreach (var parameter in methodDefinition.Parameters)
+				foreach (var parameter in def.Parameters)
 				{
 					if (parameterString != string.Empty)
 						parameterString = $"{parameterString}, ";
@@ -239,12 +239,12 @@ namespace UnityPatcher.Utils
 			return string.Empty;
 		}
 
-		public static string GetMethodDefintionFullName(this MethodDefinition methodDefintion, TypeDefinition parentType)
+		public static string GetMethodDefintionFullName(this MethodDefinition def)
 		{
-			if (methodDefintion.IsConstructor)
-				return $"{methodDefintion.GetMethodDefintionQualifier()} {parentType.FullName}({methodDefintion.GetMethodDefinitionParameters()})";
+			if (def.IsConstructor)
+				return $"{def.GetMethodDefintionQualifier()} {def.DeclaringType.FullName}({def.GetMethodDefinitionParameters()})";
 			else
-				return $"{methodDefintion.GetMethodDefintionQualifier()} {TransformTypeName(methodDefintion.ReturnType.Name)} {methodDefintion.Name}({methodDefintion.GetMethodDefinitionParameters()})";
+				return $"{def.GetMethodDefintionQualifier()} {TransformTypeName(def.ReturnType.Name)} {def.Name}({def.GetMethodDefinitionParameters()})";
 		}
 
 	}
